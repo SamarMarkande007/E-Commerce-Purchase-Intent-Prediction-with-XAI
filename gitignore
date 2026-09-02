@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Logs and local runs
+logs/
+mlruns/
+mlflow.db
+
+# Saved artifacts (large binary, don't commit unless intentional)
+models/*.joblib
+models/*.pkl
+
+# Env
+.env
+purchase_env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store

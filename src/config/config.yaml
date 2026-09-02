@@ -1,0 +1,62 @@
+# Single source of truth for tunable values.
+# Every notebook, the API, and the dashboard read from here via
+# src/config/settings.py rather than hard-coding paths or column names.
+
+paths:
+  dataset_csv: "dataset/ecommerce_sessions.csv"
+  data_dictionary_csv: "dataset/data_dictionary.csv"
+  models_dir: "models"
+  log_file: "logs/app.log"
+
+random_seed: 42
+
+data:
+  target_column: "Converted"
+
+  # Truly numeric columns (counts, durations, rates, PageValues, SpecialDay).
+  numeric_columns:
+    - "Administrative"
+    - "Administrative_Duration"
+    - "Informational"
+    - "Informational_Duration"
+    - "ProductRelated"
+    - "ProductRelated_Duration"
+    - "BounceRates"
+    - "ExitRates"
+    - "PageValues"
+    - "SpecialDay"
+
+  # Duration columns specifically, for the skew-handling step (log1p / RobustScaler).
+  duration_columns:
+    - "Administrative_Duration"
+    - "Informational_Duration"
+    - "ProductRelated_Duration"
+
+  # True categoricals, including the int-coded ID traps
+  # (OperatingSystems, Browser, Region, TrafficType) that must NOT be
+  # treated as continuous numbers.
+  categorical_columns:
+    - "Month"
+    - "OperatingSystems"
+    - "Browser"
+    - "Region"
+    - "TrafficType"
+    - "VisitorType"
+    - "Weekend"
+
+  # Kept here explicitly so preprocessing.py / features.py / the EDA
+  # notebook agree on which columns are the leakage-risk trap.
+  int_coded_categorical_columns:
+    - "OperatingSystems"
+    - "Browser"
+    - "Region"
+    - "TrafficType"
+
+modeling:
+  test_size: 0.2
+  cv_folds: 5
+  decision_threshold: 0.5 # placeholder — replaced with a value-based threshold in Phase 6
+
+mlflow:
+  experiment_name: "purchase-intent-xai"
+  tracking_uri: "mlruns" # local file store by default

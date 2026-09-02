@@ -1,0 +1,43 @@
+# Core
+pandas
+numpy
+ipykernel
+PyYAML
+pydantic>=2
+
+# ML - classical
+scikit-learn
+imbalanced-learn
+
+# ML - boosting
+xgboost
+lightgbm
+catboost
+
+# Explainability
+shap
+lime
+
+# Visualization
+matplotlib
+seaborn
+plotly
+nbformat
+
+# API
+fastapi
+uvicorn[standard]
+
+# Dashboard
+streamlit
+
+# Experiment tracking
+mlflow
+
+# Persistence
+joblib
+
+# Quality
+black
+ruff
+pytest
