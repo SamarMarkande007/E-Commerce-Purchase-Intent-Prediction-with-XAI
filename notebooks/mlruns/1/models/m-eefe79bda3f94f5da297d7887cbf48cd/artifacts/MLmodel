@@ -1,0 +1,46 @@
+artifact_path: file:d:/purchase-intent-xai/notebooks/mlruns/1/models/m-eefe79bda3f94f5da297d7887cbf48cd/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.15.2
+model_id: m-eefe79bda3f94f5da297d7887cbf48cd
+model_size_bytes: 351292
+model_uuid: m-eefe79bda3f94f5da297d7887cbf48cd
+prompts: null
+run_id: d464e288638149a6bcadc8b2c76e2303
+signature:
+  inputs: '[{"type": "long", "name": "Administrative", "required": true}, {"type":
+    "double", "name": "Administrative_Duration", "required": true}, {"type": "long",
+    "name": "Informational", "required": true}, {"type": "double", "name": "Informational_Duration",
+    "required": true}, {"type": "long", "name": "ProductRelated", "required": true},
+    {"type": "double", "name": "ProductRelated_Duration", "required": true}, {"type":
+    "double", "name": "BounceRates", "required": true}, {"type": "double", "name":
+    "ExitRates", "required": true}, {"type": "double", "name": "PageValues", "required":
+    true}, {"type": "double", "name": "SpecialDay", "required": true}, {"type": "string",
+    "name": "Month", "required": true}, {"type": "long", "name": "OperatingSystems",
+    "required": true}, {"type": "long", "name": "Browser", "required": true}, {"type":
+    "long", "name": "Region", "required": true}, {"type": "long", "name": "TrafficType",
+    "required": true}, {"type": "string", "name": "VisitorType", "required": true},
+    {"type": "boolean", "name": "Weekend", "required": true}, {"type": "long", "name":
+    "total_pages_viewed", "required": true}, {"type": "double", "name": "total_duration",
+    "required": true}, {"type": "double", "name": "product_page_ratio", "required":
+    true}, {"type": "double", "name": "avg_time_per_product_page", "required": true},
+    {"type": "long", "name": "is_returning_visitor", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1,
+    2]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-09-02 11:06:21.521172'

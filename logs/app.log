@@ -1,2 +1,58 @@
 2026-09-02 12:09:17 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
 2026-09-02 12:44:16 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-02 16:12:02 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-02 16:12:37 | INFO     | __main__ | logistic_regression / class_weight -> PR-AUC=0.802, recall=0.875
+2026-09-02 16:12:38 | INFO     | __main__ | decision_tree / class_weight -> PR-AUC=0.712, recall=0.855
+2026-09-02 16:12:46 | INFO     | __main__ | random_forest / class_weight -> PR-AUC=0.816, recall=0.873
+2026-09-02 16:12:51 | INFO     | __main__ | xgboost / class_weight -> PR-AUC=0.820, recall=0.771
+2026-09-02 16:12:53 | INFO     | __main__ | lightgbm / class_weight -> PR-AUC=0.831, recall=0.797
+2026-09-02 16:13:03 | INFO     | __main__ | catboost / class_weight -> PR-AUC=0.845, recall=0.881
+2026-09-02 16:13:05 | INFO     | __main__ | logistic_regression / smote -> PR-AUC=0.800, recall=0.873
+2026-09-02 16:13:07 | INFO     | __main__ | decision_tree / smote -> PR-AUC=0.648, recall=0.814
+2026-09-02 16:13:19 | INFO     | __main__ | random_forest / smote -> PR-AUC=0.802, recall=0.833
+2026-09-02 16:13:29 | INFO     | __main__ | xgboost / smote -> PR-AUC=0.817, recall=0.740
+2026-09-02 16:13:37 | INFO     | __main__ | lightgbm / smote -> PR-AUC=0.829, recall=0.757
+2026-09-02 16:14:10 | INFO     | __main__ | catboost / smote -> PR-AUC=0.831, recall=0.772
+2026-09-02 16:34:41 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-02 16:34:42 | INFO     | __main__ | logistic_regression / class_weight -> PR-AUC=0.802, recall=0.875
+2026-09-02 16:34:43 | INFO     | __main__ | decision_tree / class_weight -> PR-AUC=0.712, recall=0.855
+2026-09-02 16:34:51 | INFO     | __main__ | random_forest / class_weight -> PR-AUC=0.816, recall=0.873
+2026-09-02 16:34:55 | INFO     | __main__ | xgboost / class_weight -> PR-AUC=0.820, recall=0.771
+2026-09-02 16:34:58 | INFO     | __main__ | lightgbm / class_weight -> PR-AUC=0.831, recall=0.797
+2026-09-02 16:35:06 | INFO     | __main__ | catboost / class_weight -> PR-AUC=0.845, recall=0.881
+2026-09-02 16:35:07 | INFO     | __main__ | logistic_regression / smote -> PR-AUC=0.800, recall=0.873
+2026-09-02 16:35:09 | INFO     | __main__ | decision_tree / smote -> PR-AUC=0.648, recall=0.814
+2026-09-02 16:35:22 | INFO     | __main__ | random_forest / smote -> PR-AUC=0.802, recall=0.833
+2026-09-02 16:35:31 | INFO     | __main__ | xgboost / smote -> PR-AUC=0.817, recall=0.740
+2026-09-02 16:35:39 | INFO     | __main__ | lightgbm / smote -> PR-AUC=0.829, recall=0.757
+2026-09-02 16:36:15 | INFO     | __main__ | catboost / smote -> PR-AUC=0.831, recall=0.772
+2026-09-03 11:15:20 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-03 11:27:14 | INFO     | src.api.main | Starting Purchase-Intent API...
+2026-09-03 11:27:15 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-09-03 11:27:15 | INFO     | src.api.main | Model loaded: catboost (class_weight), decision_threshold=0.0137
+2026-09-03 11:28:26 | INFO     | src.api.main | Shutting down Purchase-Intent API.
+2026-09-08 10:44:33 | INFO     | src.api.main | Starting Purchase-Intent API...
+2026-09-08 10:44:34 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-09-08 10:44:34 | INFO     | src.api.main | Model loaded: catboost (class_weight), decision_threshold=0.0137
+2026-09-08 10:44:47 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-08 10:45:16 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-09-08 10:49:09 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-08 10:49:23 | INFO     | __main__ | logistic_regression / class_weight -> PR-AUC=0.802, recall=0.875
+2026-09-08 10:49:24 | INFO     | __main__ | decision_tree / class_weight -> PR-AUC=0.712, recall=0.855
+2026-09-08 10:49:33 | INFO     | __main__ | random_forest / class_weight -> PR-AUC=0.816, recall=0.873
+2026-09-08 10:49:39 | INFO     | __main__ | xgboost / class_weight -> PR-AUC=0.820, recall=0.771
+2026-09-08 10:49:42 | INFO     | __main__ | lightgbm / class_weight -> PR-AUC=0.831, recall=0.797
+2026-09-08 10:49:53 | INFO     | __main__ | catboost / class_weight -> PR-AUC=0.845, recall=0.881
+2026-09-08 10:49:55 | INFO     | __main__ | logistic_regression / smote -> PR-AUC=0.800, recall=0.873
+2026-09-08 10:49:57 | INFO     | __main__ | decision_tree / smote -> PR-AUC=0.648, recall=0.814
+2026-09-08 10:50:09 | INFO     | __main__ | random_forest / smote -> PR-AUC=0.802, recall=0.833
+2026-09-08 10:50:20 | INFO     | __main__ | xgboost / smote -> PR-AUC=0.817, recall=0.740
+2026-09-08 10:50:28 | INFO     | __main__ | lightgbm / smote -> PR-AUC=0.829, recall=0.757
+2026-09-08 10:51:03 | INFO     | __main__ | catboost / smote -> PR-AUC=0.831, recall=0.772
+2026-09-08 10:53:23 | INFO     | src.api.main | Shutting down Purchase-Intent API.
+2026-09-08 10:53:52 | INFO     | src.api.main | Starting Purchase-Intent API...
+2026-09-08 10:53:52 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-09-08 10:53:52 | INFO     | src.api.main | Model loaded: catboost (class_weight), decision_threshold=0.0137
+2026-09-08 10:54:10 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-09-08 10:57:04 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-09-08 11:02:57 | INFO     | src.api.main | Shutting down Purchase-Intent API.

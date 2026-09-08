@@ -1,0 +1,9 @@
+{
+  "model_name":"catboost",
+  "imbalance_strategy":"class_weight",
+  "decision_threshold":0.0137221144,
+  "test_pr_auc":0.8539973212,
+  "test_roc_auc":0.970691163,
+  "test_pr_auc_no_pagevalues":0.5532213449,
+  "random_seed":42
+}

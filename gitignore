@@ -1,24 +1,53 @@
+# ---- Python ----
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ---- Virtual environments ----
 .venv/
 venv/
-*.egg-info/
-
-# Logs and local runs
-logs/
-mlruns/
-mlflow.db
-
-# Saved artifacts (large binary, don't commit unless intentional)
-models/*.joblib
-models/*.pkl
-
-# Env
-.env
+env/
 purchase_env/
 
-# Jupyter
+# ---- Environment / secrets ----
+.env
+.env.*
+
+# ---- Jupyter ----
 .ipynb_checkpoints/
 
-# OS
+# ---- Testing / linting caches ----
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# ---- Logs and local runs ----
+logs/
+*.log
+mlruns/
+mlflow.db
+catboost_info/
+
+# ---- Saved model artifacts (large binaries; regenerate via notebooks) ----
+models/*.joblib
+models/*.pkl
+models/*.json
+
+# ---- Docker ----
+# (Dockerfiles/compose ARE tracked; this ignores local override files only)
+docker-compose.override.yml
+
+# ---- IDE / editor ----
+.vscode/
+.idea/
+*.swp
+
+# ---- OS ----
 .DS_Store
+Thumbs.db

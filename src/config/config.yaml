@@ -59,4 +59,4 @@ modeling:
 
 mlflow:
   experiment_name: "purchase-intent-xai"
-  tracking_uri: "mlruns" # local file store by default
+  tracking_uri: "mlflow.db" # local file store by default
