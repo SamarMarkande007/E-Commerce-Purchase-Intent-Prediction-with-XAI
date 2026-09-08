@@ -1,0 +1,71 @@
+name: CI
+
+# Runs on every push and every pull request against main, so problems
+# are caught before merging, not after.
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint with ruff
+        run: ruff check src/ tests/
+
+      - name: Check formatting with black
+        run: black --check src/ tests/
+
+      - name: Run tests
+        run: pytest tests/ -v
+        # NOTE: models/, mlruns/, mlflow.db, and catboost_info/ are committed
+        # to this repo (a deliberate choice — see .gitignore), so the trained
+        # model IS present in this checkout. Tests that check for it will run
+        # for real here, not skip.
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Build and start both containers
+        run: docker compose up --build -d
+
+      - name: Wait for the API to become healthy
+        run: |
+          for i in {1..15}; do
+            if curl -sf http://localhost:8000/health; then
+              echo "API is healthy"
+              exit 0
+            fi
+            echo "Waiting for API... ($i/15)"
+            sleep 5
+          done
+          echo "API never became healthy"
+          docker compose logs
+          exit 1
+
+      - name: Confirm the dashboard is serving
+        run: curl -sf http://localhost:8501/_stcore/health
+
+      - name: Tear down
+        if: always()
+        run: docker compose down

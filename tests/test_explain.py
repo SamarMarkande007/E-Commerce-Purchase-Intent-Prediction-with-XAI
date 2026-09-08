@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import joblib
 import pytest
-from sklearn.model_selection import train_test_split
 
 from src.config.settings import get_settings
 from src.data.loader import load_sessions

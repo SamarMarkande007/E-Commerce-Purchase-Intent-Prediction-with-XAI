@@ -86,7 +86,9 @@ def _load_model_state() -> dict:
 
     logger.info(
         "Model loaded: %s (%s), decision_threshold=%.4f",
-        metadata["model_name"], metadata["imbalance_strategy"], metadata["decision_threshold"],
+        metadata["model_name"],
+        metadata["imbalance_strategy"],
+        metadata["decision_threshold"],
     )
 
     return {
@@ -173,4 +175,6 @@ def predict(session: SessionInput) -> PredictionResponse:
 
     except Exception as exc:
         logger.exception("Prediction failed for session input: %s", session.model_dump())
-        raise HTTPException(status_code=500, detail="Prediction failed. See server logs for details.") from exc
+        raise HTTPException(
+            status_code=500, detail="Prediction failed. See server logs for details."
+        ) from exc

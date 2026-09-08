@@ -12,10 +12,10 @@ from src.features.engineering import engineer_features
 from src.models.evaluation import compute_metrics, find_value_based_threshold
 from src.models.trainer import CANDIDATE_MODEL_NAMES, ModelTrainer
 
-
 # ---------------------------------------------------------------------------
 # evaluation.py
 # ---------------------------------------------------------------------------
+
 
 def test_compute_metrics_perfect_predictions():
     y_true = np.array([0, 0, 1, 1])
@@ -50,7 +50,10 @@ def test_value_based_threshold_prefers_recall_when_conversion_is_valuable():
     y_proba = np.concatenate([rng.uniform(0, 0.6, 90), rng.uniform(0.4, 1.0, 10)])
 
     threshold, expected_value = find_value_based_threshold(
-        y_true, y_proba, conversion_value=1000.0, intervention_cost=1.0,
+        y_true,
+        y_proba,
+        conversion_value=1000.0,
+        intervention_cost=1.0,
     )
 
     assert 0.0 <= threshold <= 1.0
@@ -65,10 +68,16 @@ def test_value_based_threshold_prefers_precision_when_intervention_is_costly():
     y_proba = np.concatenate([rng.uniform(0, 0.6, 90), rng.uniform(0.4, 1.0, 10)])
 
     low_cost_threshold, _ = find_value_based_threshold(
-        y_true, y_proba, conversion_value=100.0, intervention_cost=1.0,
+        y_true,
+        y_proba,
+        conversion_value=100.0,
+        intervention_cost=1.0,
     )
     high_cost_threshold, _ = find_value_based_threshold(
-        y_true, y_proba, conversion_value=100.0, intervention_cost=90.0,
+        y_true,
+        y_proba,
+        conversion_value=100.0,
+        intervention_cost=90.0,
     )
 
     assert high_cost_threshold >= low_cost_threshold
@@ -78,13 +87,14 @@ def test_value_based_threshold_rejects_all_zero_probabilities_gracefully():
     y_true = np.array([0, 0, 1, 1])
     y_proba = np.array([0.0, 0.0, 0.0, 0.0])
     # Should not raise even in this degenerate case.
-    threshold, value = find_value_based_threshold(y_true, y_proba, 100.0, 5.0)
+    threshold, _value = find_value_based_threshold(y_true, y_proba, 100.0, 5.0)
     assert isinstance(threshold, float)
 
 
 # ---------------------------------------------------------------------------
 # trainer.py
 # ---------------------------------------------------------------------------
+
 
 @pytest.fixture(scope="module")
 def settings():
@@ -128,12 +138,15 @@ def test_compare_models_returns_ranked_results(settings, small_train_data):
 
 def test_select_best_picks_top_row(settings):
     import pandas as pd
+
     trainer = ModelTrainer(settings)
-    results_df = pd.DataFrame({
-        "model": ["logistic_regression", "catboost"],
-        "strategy": ["class_weight", "smote"],
-        "pr_auc": [0.7, 0.9],
-    })
+    results_df = pd.DataFrame(
+        {
+            "model": ["logistic_regression", "catboost"],
+            "strategy": ["class_weight", "smote"],
+            "pr_auc": [0.7, 0.9],
+        }
+    )
     name, strategy = trainer.select_best(results_df)
     assert name == "catboost"
     assert strategy == "smote"
@@ -141,15 +154,18 @@ def test_select_best_picks_top_row(settings):
 
 def test_select_best_raises_on_empty_dataframe(settings):
     import pandas as pd
+
     trainer = ModelTrainer(settings)
     with pytest.raises(ValueError):
         trainer.select_best(pd.DataFrame())
 
 
 def test_fit_best_produces_working_pipeline(settings, small_train_data):
-    X_train, X_test, y_train, y_test = small_train_data
+    X_train, X_test, y_train, _y_test = small_train_data
     trainer = ModelTrainer(settings)
-    pipeline = trainer.fit_best(X_train, y_train, model_name="logistic_regression", strategy="class_weight")
+    pipeline = trainer.fit_best(
+        X_train, y_train, model_name="logistic_regression", strategy="class_weight"
+    )
 
     proba = pipeline.predict_proba(X_test)[:, 1]
     assert len(proba) == len(X_test)
@@ -166,7 +182,9 @@ def test_fit_best_raises_on_unknown_model_name(settings, small_train_data):
 def test_save_and_load_roundtrip(tmp_path, settings, small_train_data):
     X_train, X_test, y_train, _ = small_train_data
     trainer = ModelTrainer(settings)
-    pipeline = trainer.fit_best(X_train, y_train, model_name="logistic_regression", strategy="class_weight")
+    pipeline = trainer.fit_best(
+        X_train, y_train, model_name="logistic_regression", strategy="class_weight"
+    )
 
     save_path = tmp_path / "test_pipeline.joblib"
     trainer.save(pipeline, save_path)

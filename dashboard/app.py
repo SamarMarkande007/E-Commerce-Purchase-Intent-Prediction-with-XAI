@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -38,7 +39,7 @@ from src.explain.shap_utils import SessionExplainer
 from src.features.engineering import ENGINEERED_FEATURE_COLUMNS, engineer_features
 from src.utils.logging_config import setup_logging
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = os.environ.get("API_URL", "http://127.0.0.1:8000")
 
 st.set_page_config(page_title="Purchase-Intent XAI", layout="wide")
 

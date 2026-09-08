@@ -57,19 +57,20 @@ def build_preprocessor(settings: Settings) -> ColumnTransformer:
         ``.fit_transform`` on a *training* split only.
     """
     duration_cols = settings.data.duration_columns
-    other_numeric_cols = [
-        c for c in settings.data.numeric_columns if c not in duration_cols
-    ] + [
-        c for c in ENGINEERED_FEATURE_COLUMNS
+    other_numeric_cols = [c for c in settings.data.numeric_columns if c not in duration_cols] + [
+        c
+        for c in ENGINEERED_FEATURE_COLUMNS
         if c not in ("is_returning_visitor",)  # binary flag doesn't need scaling
     ]
     categorical_cols = settings.data.categorical_columns
     passthrough_cols = ["is_returning_visitor"]  # already 0/1, no transform needed
 
-    duration_pipeline = ImbPipeline(steps=[
-        ("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
-        ("scale", RobustScaler()),
-    ])
+    duration_pipeline = ImbPipeline(
+        steps=[
+            ("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
+            ("scale", RobustScaler()),
+        ]
+    )
 
     preprocessor = ColumnTransformer(
         transformers=[
@@ -84,7 +85,10 @@ def build_preprocessor(settings: Settings) -> ColumnTransformer:
     logger.debug(
         "Built preprocessor: %d duration cols, %d other numeric cols, "
         "%d categorical cols, %d passthrough cols",
-        len(duration_cols), len(other_numeric_cols), len(categorical_cols), len(passthrough_cols),
+        len(duration_cols),
+        len(other_numeric_cols),
+        len(categorical_cols),
+        len(passthrough_cols),
     )
 
     return preprocessor
@@ -135,6 +139,7 @@ def build_full_pipeline(
     pipeline = ImbPipeline(steps=steps)
     logger.debug(
         "Built full pipeline with imbalance_strategy=%s, estimator=%s",
-        imbalance_strategy, type(estimator).__name__,
+        imbalance_strategy,
+        type(estimator).__name__,
     )
     return pipeline

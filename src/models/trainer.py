@@ -59,7 +59,9 @@ class ModelTrainer:
         self.settings = settings
         self._scale_pos_weight: float | None = None
 
-    def get_candidate_models(self, balanced: bool, scale_pos_weight: float = 1.0) -> dict[str, ClassifierMixin]:
+    def get_candidate_models(
+        self, balanced: bool, scale_pos_weight: float = 1.0
+    ) -> dict[str, ClassifierMixin]:
         """Return the six candidate estimators.
 
         Args:
@@ -80,27 +82,38 @@ class ModelTrainer:
         seed = self.settings.random_seed
         return {
             "logistic_regression": LogisticRegression(
-                max_iter=1000, random_state=seed,
+                max_iter=1000,
+                random_state=seed,
                 class_weight="balanced" if balanced else None,
             ),
             "decision_tree": DecisionTreeClassifier(
-                random_state=seed, max_depth=10,
+                random_state=seed,
+                max_depth=10,
                 class_weight="balanced" if balanced else None,
             ),
             "random_forest": RandomForestClassifier(
-                n_estimators=300, random_state=seed, n_jobs=-1, max_depth=12,
+                n_estimators=300,
+                random_state=seed,
+                n_jobs=-1,
+                max_depth=12,
                 class_weight="balanced" if balanced else None,
             ),
             "xgboost": XGBClassifier(
-                n_estimators=300, random_state=seed, eval_metric="logloss",
+                n_estimators=300,
+                random_state=seed,
+                eval_metric="logloss",
                 scale_pos_weight=scale_pos_weight if balanced else 1.0,
             ),
             "lightgbm": LGBMClassifier(
-                n_estimators=300, random_state=seed, verbosity=-1,
+                n_estimators=300,
+                random_state=seed,
+                verbosity=-1,
                 class_weight="balanced" if balanced else None,
             ),
             "catboost": CatBoostClassifier(
-                iterations=300, random_state=seed, verbose=0,
+                iterations=300,
+                random_state=seed,
+                verbose=0,
                 auto_class_weights="Balanced" if balanced else None,
             ),
         }
@@ -130,7 +143,9 @@ class ModelTrainer:
         scale_pos_weight = neg / pos if pos > 0 else 1.0
 
         cv = StratifiedKFold(
-            n_splits=self.settings.modeling.cv_folds, shuffle=True, random_state=self.settings.random_seed,
+            n_splits=self.settings.modeling.cv_folds,
+            shuffle=True,
+            random_state=self.settings.random_seed,
         )
 
         results = []
@@ -140,10 +155,13 @@ class ModelTrainer:
 
             for name, estimator in models.items():
                 pipeline = build_full_pipeline(
-                    self.settings, estimator,
+                    self.settings,
+                    estimator,
                     imbalance_strategy="smote" if strategy == "smote" else "none",
                 )
-                scores = cross_validate(pipeline, X_train, y_train, cv=cv, scoring=SKLEARN_SCORING, n_jobs=1)
+                scores = cross_validate(
+                    pipeline, X_train, y_train, cv=cv, scoring=SKLEARN_SCORING, n_jobs=1
+                )
 
                 row: dict[str, Any] = {"model": name, "strategy": strategy}
                 for metric in SKLEARN_SCORING:
@@ -151,7 +169,11 @@ class ModelTrainer:
                 results.append(row)
 
                 logger.info(
-                    "%s / %s -> PR-AUC=%.3f, recall=%.3f", name, strategy, row["pr_auc"], row["recall"],
+                    "%s / %s -> PR-AUC=%.3f, recall=%.3f",
+                    name,
+                    strategy,
+                    row["pr_auc"],
+                    row["recall"],
                 )
 
         return pd.DataFrame(results).sort_values("pr_auc", ascending=False).reset_index(drop=True)
@@ -205,10 +227,14 @@ class ModelTrainer:
         balanced = strategy == "class_weight"
         models = self.get_candidate_models(balanced=balanced, scale_pos_weight=scale_pos_weight)
         if model_name not in models:
-            raise KeyError(f"Unknown model_name: {model_name!r}. Expected one of {CANDIDATE_MODEL_NAMES}")
+            raise KeyError(
+                f"Unknown model_name: {model_name!r}. Expected one of {CANDIDATE_MODEL_NAMES}"
+            )
 
         imbalance_strategy: ImbalanceStrategy = "smote" if strategy == "smote" else "none"
-        pipeline = build_full_pipeline(self.settings, models[model_name], imbalance_strategy=imbalance_strategy)
+        pipeline = build_full_pipeline(
+            self.settings, models[model_name], imbalance_strategy=imbalance_strategy
+        )
         pipeline.fit(X_train, y_train)
         return pipeline
 

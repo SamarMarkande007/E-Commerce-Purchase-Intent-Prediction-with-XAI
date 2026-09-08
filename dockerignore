@@ -1,0 +1,28 @@
+# Unlike .gitignore, this controls what Docker sees during `docker build` —
+# it applies regardless of git status. Excluding these keeps the build
+# context small and fast, and keeps dev-only files out of the image.
+
+.git/
+.github/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+
+purchase_env/
+.venv/
+venv/
+
+notebooks/
+tests/
+docs/
+mlruns/
+mlflow.db
+logs/
+catboost_info/
+
+.vscode/
+.idea/
+.DS_Store
+
+README.md

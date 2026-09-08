@@ -1,0 +1,33 @@
+# Dockerfile for the Purchase-Intent FastAPI service.
+# Build from the repo root:  docker build -f docker/Dockerfile.api -t purchase-intent-api .
+# (Run via docker-compose.yml normally; this file is mainly for compose to use.)
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# libgomp1 is required by LightGBM at runtime (its C++ backend uses OpenMP).
+# Without it, `import lightgbm` fails inside the container even though it
+# works fine on a dev machine that already has it installed system-wide.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies first, separately from the app code, so Docker's
+# layer cache can skip this slow step on rebuilds where only source
+# code changed, not requirements.txt.
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Application code and the artifacts it needs at runtime.
+COPY pyproject.toml .
+COPY src/ src/
+COPY dataset/ dataset/
+COPY models/ models/
+
+EXPOSE 8000
+
+# Fails loudly and immediately if the model artifact is missing, per
+# src/api/main.py's _load_model_state — easier to diagnose than a
+# container that starts but errors on the first request.
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

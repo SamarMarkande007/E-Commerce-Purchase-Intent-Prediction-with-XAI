@@ -1,0 +1,30 @@
+# Dockerfile for the Purchase-Intent Streamlit dashboard.
+# Build from the repo root:  docker build -f docker/Dockerfile.dashboard -t purchase-intent-dashboard .
+# (Run via docker-compose.yml normally; this file is mainly for compose to use.)
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Same LightGBM/OpenMP requirement as the API image — the dashboard's
+# explainability section loads the same CatBoost/LightGBM-capable
+# pipeline artifact.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY pyproject.toml .
+COPY src/ src/
+COPY dataset/ dataset/
+COPY models/ models/
+COPY dashboard/ dashboard/
+
+EXPOSE 8501
+
+# --server.address=0.0.0.0 is required inside a container — Streamlit's
+# default (localhost only) would make it unreachable from outside the
+# container even with the port published.
+CMD ["streamlit", "run", "dashboard/app.py", "--server.address=0.0.0.0", "--server.port=8501"]

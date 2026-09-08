@@ -1,3 +1,18 @@
+"""Central logging configuration.
+
+Call ``setup_logging()`` once, as early as possible, in every entrypoint:
+a notebook's first cell, the API's startup, the dashboard's top-level
+script, or a CLI script. Every module then just does::
+
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info("something happened")
+
+and messages flow through the handlers configured here. Modules should
+never call ``logging.basicConfig`` themselves and should never use
+``print`` for anything other than a CLI's final human-facing output.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -31,7 +46,7 @@ def setup_logging(level: str = "INFO", log_file: str | Path | None = None) -> No
 
     numeric_level = logging.getLevelName(level.upper())
     if not isinstance(numeric_level, int):
-        raise ValueError(f"Unknown log level: {level!r}")
+        raise TypeError(f"Unknown log level: {level!r}")
 
     handlers: list[logging.Handler] = [logging.StreamHandler(sys.stdout)]
 

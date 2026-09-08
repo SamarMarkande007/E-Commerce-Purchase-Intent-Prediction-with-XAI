@@ -30,14 +30,11 @@ htmlcov/
 # ---- Logs and local runs ----
 logs/
 *.log
-mlruns/
-mlflow.db
-catboost_info/
-
-# ---- Saved model artifacts (large binaries; regenerate via notebooks) ----
-models/*.joblib
-models/*.pkl
-models/*.json
+# NOTE: mlruns/, mlflow.db, catboost_info/, and models/*.joblib are
+# intentionally NOT ignored in this project — they are committed and
+# pushed to GitHub so the repo is fully reproducible without retraining,
+# and so CI/CD can exercise the real trained model. This is a deliberate
+# repo-size-for-simplicity tradeoff, not an oversight.
 
 # ---- Docker ----
 # (Dockerfiles/compose ARE tracked; this ignores local override files only)

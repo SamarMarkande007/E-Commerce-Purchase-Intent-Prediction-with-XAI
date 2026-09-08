@@ -47,7 +47,8 @@ class SessionExplainer:
 
         logger.info(
             "SessionExplainer ready: %s, %d transformed features",
-            type(self.classifier).__name__, len(self.feature_names),
+            type(self.classifier).__name__,
+            len(self.feature_names),
         )
 
     def explain(self, X_row: pd.DataFrame, top_n: int = 5) -> list[dict]:
@@ -79,7 +80,11 @@ class SessionExplainer:
             raise ValueError(f"explain() expects exactly one row, got {len(X_row)}")
 
         X_transformed = self.preprocessor.transform(X_row)
-        X_dense = np.asarray(X_transformed.todense()) if hasattr(X_transformed, "todense") else np.asarray(X_transformed)
+        X_dense = (
+            np.asarray(X_transformed.todense())
+            if hasattr(X_transformed, "todense")
+            else np.asarray(X_transformed)
+        )
 
         shap_values = self._explainer.shap_values(X_dense)[0]
 

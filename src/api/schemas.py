@@ -24,11 +24,15 @@ class SessionInput(BaseModel):
     """
 
     Administrative: int = Field(ge=0, description="Number of administrative pages visited")
-    Administrative_Duration: float = Field(ge=0, description="Seconds spent on administrative pages")
+    Administrative_Duration: float = Field(
+        ge=0, description="Seconds spent on administrative pages"
+    )
     Informational: int = Field(ge=0, description="Number of informational pages visited")
     Informational_Duration: float = Field(ge=0, description="Seconds spent on informational pages")
     ProductRelated: int = Field(ge=0, description="Number of product-related pages visited")
-    ProductRelated_Duration: float = Field(ge=0, description="Seconds spent on product-related pages")
+    ProductRelated_Duration: float = Field(
+        ge=0, description="Seconds spent on product-related pages"
+    )
     BounceRates: float = Field(ge=0, le=1, description="Average bounce rate of pages visited")
     ExitRates: float = Field(ge=0, le=1, description="Average exit rate of pages visited")
     PageValues: float = Field(
@@ -39,12 +43,24 @@ class SessionInput(BaseModel):
             "known at scoring time (e.g. late-session / checkout)."
         ),
     )
-    SpecialDay: float = Field(ge=0, le=1, description="Closeness of the visit to a special day (0=far, 1=on the day)")
-    Month: Literal["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    OperatingSystems: int = Field(ge=1, le=8, description="Anonymised OS ID (categorical, not a magnitude)")
-    Browser: int = Field(ge=1, le=13, description="Anonymised browser ID (categorical, not a magnitude)")
-    Region: int = Field(ge=1, le=9, description="Anonymised region ID (categorical, not a magnitude)")
-    TrafficType: int = Field(ge=1, le=20, description="Anonymised traffic-source ID (categorical, not a magnitude)")
+    SpecialDay: float = Field(
+        ge=0, le=1, description="Closeness of the visit to a special day (0=far, 1=on the day)"
+    )
+    Month: Literal[
+        "Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ]
+    OperatingSystems: int = Field(
+        ge=1, le=8, description="Anonymised OS ID (categorical, not a magnitude)"
+    )
+    Browser: int = Field(
+        ge=1, le=13, description="Anonymised browser ID (categorical, not a magnitude)"
+    )
+    Region: int = Field(
+        ge=1, le=9, description="Anonymised region ID (categorical, not a magnitude)"
+    )
+    TrafficType: int = Field(
+        ge=1, le=20, description="Anonymised traffic-source ID (categorical, not a magnitude)"
+    )
     VisitorType: Literal["New_Visitor", "Returning_Visitor", "Other"]
     Weekend: bool
 
@@ -77,7 +93,9 @@ class ExplanationFactor(BaseModel):
     """One feature's contribution to a single prediction (see src/explain/shap_utils.py)."""
 
     feature: str
-    shap_value: float = Field(description="Contribution on the model's log-odds scale; see docs/model_card.md")
+    shap_value: float = Field(
+        description="Contribution on the model's log-odds scale; see docs/model_card.md"
+    )
     direction: Literal["increases", "decreases"]
 
 
@@ -89,8 +107,12 @@ class PredictionResponse(BaseModel):
     confidence: Literal["low", "medium", "high"] = Field(
         description="How far the probability sits from the decision threshold — a simple distance-based indicator, not a calibrated statistical confidence interval."
     )
-    decision_threshold: float = Field(description="Value-based threshold from notebooks/03_modeling.ipynb, not 0.5")
-    top_factors: list[ExplanationFactor] = Field(description="Top SHAP contributors for this session, largest influence first")
+    decision_threshold: float = Field(
+        description="Value-based threshold from notebooks/03_modeling.ipynb, not 0.5"
+    )
+    top_factors: list[ExplanationFactor] = Field(
+        description="Top SHAP contributors for this session, largest influence first"
+    )
 
 
 class HealthResponse(BaseModel):

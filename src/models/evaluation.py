@@ -114,7 +114,10 @@ def find_value_based_threshold(
     logger.info(
         "Value-based threshold selected: %.4f (expected value=%.2f, "
         "vs conversion_value=%.2f, intervention_cost=%.2f)",
-        best_threshold, best_value, conversion_value, intervention_cost,
+        best_threshold,
+        best_value,
+        conversion_value,
+        intervention_cost,
     )
 
     return best_threshold, best_value

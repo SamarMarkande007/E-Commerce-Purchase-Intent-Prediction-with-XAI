@@ -8,13 +8,23 @@ from fastapi.testclient import TestClient
 from src.config.settings import get_settings
 
 VALID_SESSION = {
-    "Administrative": 2, "Administrative_Duration": 40.0,
-    "Informational": 0, "Informational_Duration": 0.0,
-    "ProductRelated": 25, "ProductRelated_Duration": 620.5,
-    "BounceRates": 0.01, "ExitRates": 0.02, "PageValues": 15.0,
-    "SpecialDay": 0.0, "Month": "Nov", "OperatingSystems": 2,
-    "Browser": 2, "Region": 1, "TrafficType": 2,
-    "VisitorType": "Returning_Visitor", "Weekend": False,
+    "Administrative": 2,
+    "Administrative_Duration": 40.0,
+    "Informational": 0,
+    "Informational_Duration": 0.0,
+    "ProductRelated": 25,
+    "ProductRelated_Duration": 620.5,
+    "BounceRates": 0.01,
+    "ExitRates": 0.02,
+    "PageValues": 15.0,
+    "SpecialDay": 0.0,
+    "Month": "Nov",
+    "OperatingSystems": 2,
+    "Browser": 2,
+    "Region": 1,
+    "TrafficType": 2,
+    "VisitorType": "Returning_Visitor",
+    "Weekend": False,
 }
 
 
@@ -25,6 +35,7 @@ def client():
         pytest.skip("models/best_pipeline.joblib not found; run notebooks/03_modeling.ipynb first")
 
     from src.api.main import app
+
     with TestClient(app) as test_client:  # triggers the lifespan startup/shutdown
         yield test_client
 

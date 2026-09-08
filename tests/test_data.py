@@ -38,9 +38,9 @@ def test_int_coded_traps_are_categorical_not_numeric(settings):
     must not be treated as continuous numbers."""
     df = load_sessions(settings=settings)
     for col in settings.data.int_coded_categorical_columns:
-        assert str(df[col].dtype) == "category", (
-            f"{col} is int-coded but must be categorical, not numeric"
-        )
+        assert (
+            str(df[col].dtype) == "category"
+        ), f"{col} is int-coded but must be categorical, not numeric"
 
 
 def test_target_is_binary_with_no_nulls(settings):

@@ -24,18 +24,23 @@ def train_test_split_data(settings):
     y = df[settings.data.target_column]
     X = df.drop(columns=[settings.data.target_column])
     return train_test_split(
-        X, y, test_size=settings.modeling.test_size,
-        stratify=y, random_state=settings.random_seed,
+        X,
+        y,
+        test_size=settings.modeling.test_size,
+        stratify=y,
+        random_state=settings.random_seed,
     )
 
 
 def test_preprocessor_fits_and_transforms_train_split(settings, train_test_split_data):
-    X_train, _, y_train, _ = train_test_split_data
+    X_train, _, _, _ = train_test_split_data
     preprocessor = build_preprocessor(settings)
     transformed = preprocessor.fit_transform(X_train)
     # Output is numeric (post one-hot + scaling), same number of rows as input.
     assert transformed.shape[0] == len(X_train)
-    assert np.isfinite(transformed if not hasattr(transformed, "toarray") else transformed.toarray()).all()
+    assert np.isfinite(
+        transformed if not hasattr(transformed, "toarray") else transformed.toarray()
+    ).all()
 
 
 def test_preprocessor_handles_unseen_category_at_transform_time(settings, train_test_split_data):
@@ -59,7 +64,7 @@ def test_preprocessor_handles_unseen_category_at_transform_time(settings, train_
 def test_full_pipeline_smote_only_resamples_training_fold(settings, train_test_split_data):
     """The defining no-leakage requirement: fitting on the train split must
     not touch or change the size of the test split."""
-    X_train, X_test, y_train, y_test = train_test_split_data
+    X_train, X_test, y_train, _ = train_test_split_data
     test_len_before = len(X_test)
 
     pipeline = build_full_pipeline(
@@ -76,7 +81,7 @@ def test_full_pipeline_smote_only_resamples_training_fold(settings, train_test_s
 
 
 def test_full_pipeline_none_strategy_runs_without_resampling(settings, train_test_split_data):
-    X_train, X_test, y_train, y_test = train_test_split_data
+    X_train, X_test, y_train, _ = train_test_split_data
     pipeline = build_full_pipeline(
         settings,
         LogisticRegression(max_iter=1000, class_weight="balanced"),

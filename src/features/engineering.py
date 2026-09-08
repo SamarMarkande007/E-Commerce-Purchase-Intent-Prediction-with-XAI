@@ -57,9 +57,12 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         KeyError: If a required source column is missing.
     """
     required = {
-        "Administrative", "Administrative_Duration",
-        "Informational", "Informational_Duration",
-        "ProductRelated", "ProductRelated_Duration",
+        "Administrative",
+        "Administrative_Duration",
+        "Informational",
+        "Informational_Duration",
+        "ProductRelated",
+        "ProductRelated_Duration",
         "VisitorType",
     }
     missing = required - set(df.columns)
@@ -68,9 +71,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
     out = df.copy()
 
-    out["total_pages_viewed"] = (
-        out["Administrative"] + out["Informational"] + out["ProductRelated"]
-    )
+    out["total_pages_viewed"] = out["Administrative"] + out["Informational"] + out["ProductRelated"]
     out["total_duration"] = (
         out["Administrative_Duration"]
         + out["Informational_Duration"]
@@ -88,6 +89,8 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     )
     out["is_returning_visitor"] = (out["VisitorType"] == "Returning_Visitor").astype(int)
 
-    logger.debug("Engineered %d new feature columns for %d rows", len(ENGINEERED_FEATURE_COLUMNS), len(out))
+    logger.debug(
+        "Engineered %d new feature columns for %d rows", len(ENGINEERED_FEATURE_COLUMNS), len(out)
+    )
 
     return out

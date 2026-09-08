@@ -1,0 +1,40 @@
+# Runs the API and dashboard together as two containers on one shared
+# network. Compose automatically makes each service reachable by its
+# name (e.g. "api") from inside the other container — that's how the
+# dashboard finds the API without hardcoding an IP address.
+#
+# Usage (from the repo root):
+#   docker compose up --build      # build images and start both services
+#   docker compose down            # stop and remove both containers
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs # so logs/app.log is readable on the host, not trapped in the container
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      # Inside Docker's network, "api" resolves to the api service above —
+      # NOT 127.0.0.1, which would mean "this same container" instead.
+      - API_URL=http://api:8000
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      api:
+        condition: service_healthy
