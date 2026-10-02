@@ -56,3 +56,8 @@
 2026-09-08 10:54:10 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from D:\purchase-intent-xai\dataset\ecommerce_sessions.csv. Conversion rate: 15.72%
 2026-09-08 10:57:04 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
 2026-09-08 11:02:57 | INFO     | src.api.main | Shutting down Purchase-Intent API.
+2026-10-02 10:49:37 | INFO     | src.api.main | Starting Purchase-Intent API...
+2026-10-02 10:49:38 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
+2026-10-02 10:49:38 | INFO     | src.api.main | Model loaded: catboost (class_weight), decision_threshold=0.0137
+2026-10-02 10:51:31 | INFO     | src.data.loader | Loaded 12000 sessions (18 columns) from /app/dataset/ecommerce_sessions.csv. Conversion rate: 15.72%
+2026-10-02 10:52:00 | INFO     | src.explain.shap_utils | SessionExplainer ready: CatBoostClassifier, 80 transformed features
